@@ -1,0 +1,22 @@
+var app=angular.module("app",['ngRoute'])
+app.config(function($routeProvider){
+	$routeProvider
+	.when('/home',{
+		templateUrl:'views/home.html'
+			})
+	.when('/',{
+		templateUrl:'views/home.html'
+			})
+	.when('/aboutUs',{
+		templateUrl:'views/aboutUs.html'
+	})
+	.when('/register',{
+		templateUrl:'views/register.html'
+})
+	.when('/login',{
+		templateUrl:'views/login.html'
+	})
+	.otherwise({
+		templateUrl:'views/404.html'
+	})
+})
