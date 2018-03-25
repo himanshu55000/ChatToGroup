@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.ChatToGroupBackend.dao.JobDAO;
+import com.ChatToGroupBackend.model.ApplyForJob;
 import com.ChatToGroupBackend.model.Job;
 
 @Repository("jobDAO")
@@ -61,6 +62,29 @@ public class JobDAOImpl implements JobDAO {
 		} catch (Exception e) {
 			return null;
 		}
+	}
+	public void applyForJob(ApplyForJob applyForJob) {
+		Session session=sessionFactory.getCurrentSession();
+		session.saveOrUpdate(applyForJob);	
+	}
+	
+	public List<ApplyForJob> getAllAppliedUser(int jobId) {
+		Session session=sessionFactory.getCurrentSession();
+		@SuppressWarnings("unchecked")
+		Query<ApplyForJob> query=session.createQuery("from ApplyForJob where applied_for=:id");
+		query.setParameter("id", jobId);
+		List<ApplyForJob> list=query.list();
+		return list;
+	}
+	public boolean checkIfApplied(int jobId,String username){
+		Session session=sessionFactory.getCurrentSession();
+		@SuppressWarnings("unchecked")
+		Query<ApplyForJob> query=session.createQuery("from ApplyForJob where applied_for=:id and applied_by.username=:username");
+		query.setParameter("id", jobId);
+		query.setParameter("username", username);
+		if(query.uniqueResult()==null)
+			return false;
+		return true;
 	}
 
 }

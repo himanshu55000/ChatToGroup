@@ -51,11 +51,11 @@ public class ForumDAOTest {
 		assertNotEquals(null, forumDAO.getForumById(forum.getForum_id()));
 	}
 
-	@Test
+/*	@Test
 	public void test4_GetForumsByUser() {
 		assertNotEquals(null, forumDAO.getForumsByUser("username"));
 	}
-
+*/
 	@Test
 	public void test5_DeleteForum() {
 		assertEquals(true, forumDAO.deleteForum(forum));

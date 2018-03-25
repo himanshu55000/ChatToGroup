@@ -52,7 +52,7 @@ public class ForumDAOImpl implements ForumDAO {
 		}
 	}
 
-	public List<Forum> getForumsByUser(String username) {
+/*	public List<Forum> getForumsByUser(String username) {
 		try {
 			Session session = sessionFactory.getCurrentSession();
 			Query<Forum> query = session.createQuery("from Forum where posted_by.username=:user");
@@ -62,7 +62,7 @@ public class ForumDAOImpl implements ForumDAO {
 			return null;
 		}
 	}
-
+*/
 	public boolean deleteForum(Forum forum) {
 		try {
 			Session session = sessionFactory.getCurrentSession();

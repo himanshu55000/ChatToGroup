@@ -42,5 +42,12 @@ public class UserDetailsDAOImpl implements UserDetailsDAO {
 		query.setParameter("email", email);
 		return (UserDetails) query.uniqueResult();
 	}
+	public UserDetails login(UserDetails userDetails) {
+		Session session=sessionFactory.getCurrentSession();
+		Query query=session.createQuery("from UserDetails where username=:username and password=:password");
+		query.setParameter("username",userDetails.getUsername());
+		query.setParameter("password",userDetails.getPassword());
+		return (UserDetails)query.uniqueResult();
+	}
 
 }
