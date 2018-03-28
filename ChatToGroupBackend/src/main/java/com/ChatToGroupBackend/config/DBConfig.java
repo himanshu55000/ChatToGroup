@@ -32,7 +32,7 @@ public class DBConfig {
 	@Bean(name="sessionfact")
 	public SessionFactory getSessionFactory(){
 		Properties prop = new Properties();
-		//prop.put("hibernate.hbm2ddl.auto","update");
+		prop.put("hibernate.hbm2ddl.auto","update");
 		prop.put("hibernate.dialect","org.hibernate.dialect.Oracle10gDialect");
 		prop.put("hibernate.show_sql","true");
 		LocalSessionFactoryBuilder sessionFactBuilder = new LocalSessionFactoryBuilder(getDataSource());
@@ -42,6 +42,8 @@ public class DBConfig {
 		sessionFactBuilder.addAnnotatedClass(Job.class);
 		sessionFactBuilder.addAnnotatedClass(UserDetails.class);
 		sessionFactBuilder.addAnnotatedClass(ApplyForJob.class);
+		sessionFactBuilder.addAnnotatedClass(Friends.class);
+		sessionFactBuilder.addAnnotatedClass(BlogComment.class);
 		return sessionFactBuilder.buildSessionFactory();
 	}
 

@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.ChatToGroupBackend.dao.BlogDAO;
 import com.ChatToGroupBackend.model.Blog;
+import com.ChatToGroupBackend.model.BlogComment;
 
 @Repository("blogDAO")
 @Transactional
@@ -72,6 +73,21 @@ public class BlogDAOImpl implements BlogDAO {
 		} catch (Exception e) {
 			return false;
 		}
+	}
+	public boolean addBlogComment(BlogComment blogComment) {
+		try {
+		Session session=sessionFactory.getCurrentSession();
+		session.save(blogComment);		
+		return true;
+	} catch (Exception e) {
+		return false;
+	}
+	}
+	public List<BlogComment> getAllBlogComment(int blog_id) {
+		Session session=sessionFactory.getCurrentSession();
+		Query<BlogComment> query=session.createQuery("from BlogComment where blogPost.blog_id=:id");
+		query.setParameter("id",blog_id);
+		return query.list();
 	}
 
 }

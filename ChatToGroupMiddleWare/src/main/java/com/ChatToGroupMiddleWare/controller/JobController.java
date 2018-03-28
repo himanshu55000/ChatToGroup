@@ -17,8 +17,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.ChatToGroupBackend.dao.JobDAO;
 import com.ChatToGroupBackend.dao.UserDetailsDAO;
 import com.ChatToGroupBackend.model.ApplyForJob;
+import com.ChatToGroupBackend.model.Error;
 import com.ChatToGroupBackend.model.Job;
-
 
 @Controller
 public class JobController {
@@ -31,17 +31,20 @@ public class JobController {
 	public ResponseEntity<?> addJob(@RequestBody Job job,HttpSession session){
 		try{
 			if(session.getAttribute("username")==null){
-	    		return new ResponseEntity<Void>(HttpStatus.UNAUTHORIZED);
+	    		Error error=new Error(5,"Unauthorized User!!");
+	    		return new ResponseEntity<Error>(error,HttpStatus.UNAUTHORIZED);
 	    	}
 			else if(!session.getAttribute("role").equals("admin")){
-				return new ResponseEntity<Void>(HttpStatus.UNAUTHORIZED);	
+				Error error=new Error(6,"Unauthorized User!!");
+	    		return new ResponseEntity<Error>(error,HttpStatus.UNAUTHORIZED);	
 			}
 			job.setPosted_on(new Date());
 			jobDAO.insertOrUpdateJob(job);
 			return new ResponseEntity<Void>(HttpStatus.OK);
     	}catch(Exception e){
     		System.out.print(e);
-    		return new ResponseEntity<Void>(HttpStatus.INTERNAL_SERVER_ERROR);
+    		Error error=new Error(1,"Unable to add Job details!!");
+    		return new ResponseEntity<Error>(error,HttpStatus.INTERNAL_SERVER_ERROR);
     	}
 	}
 	
@@ -49,16 +52,19 @@ public class JobController {
 	public ResponseEntity<?> deleteJob(@PathVariable int id,HttpSession session){
 		try{
 			if(session.getAttribute("username")==null){
-	    		return new ResponseEntity<Void>(HttpStatus.UNAUTHORIZED);
+	    		Error error=new Error(5,"Unauthorized User!!");
+	    		return new ResponseEntity<Error>(error,HttpStatus.UNAUTHORIZED);
 	    	}
 			else if(!session.getAttribute("role").equals("admin")){
-				return new ResponseEntity<Void>(HttpStatus.UNAUTHORIZED);	
+				Error error=new Error(6,"Unauthorized User!!");
+	    		return new ResponseEntity<Error>(error,HttpStatus.UNAUTHORIZED);	
 			}
 			jobDAO.deleteJob(jobDAO.getJobById(id));
 			return new ResponseEntity<Void>(HttpStatus.OK);
     	}catch(Exception e){
     		System.out.print(e);
-    		return new ResponseEntity<Void>(HttpStatus.INTERNAL_SERVER_ERROR);
+    		Error error=new Error(1,"Unable to delete Job details!!");
+    		return new ResponseEntity<Error>(error,HttpStatus.INTERNAL_SERVER_ERROR);
     	}
 	}
 	
@@ -79,10 +85,12 @@ public class JobController {
 		try{
 			String username=(String)session.getAttribute("username");
 			if(username==null){
-	    		return new ResponseEntity<Void>(HttpStatus.UNAUTHORIZED);
+	    		Error error=new Error(5,"Unauthorized User!!");
+	    		return new ResponseEntity<Error>(error,HttpStatus.UNAUTHORIZED);
 	    	}
 			if(jobDAO.checkIfApplied(jobId, username)){
-	    		return new ResponseEntity<Void>(HttpStatus.ALREADY_REPORTED);
+	    		Error error=new Error(8,"Not allowed to apply again!!");
+	    		return new ResponseEntity<Error>(error,HttpStatus.ALREADY_REPORTED);
 	    	}
 			ApplyForJob applyForJob=new ApplyForJob();
 			applyForJob.setApplied_for(jobId);
@@ -91,17 +99,20 @@ public class JobController {
 			return new ResponseEntity<Void>(HttpStatus.OK);
     	}catch(Exception e){
     		System.out.print(e);
-    		return new ResponseEntity<Void>(HttpStatus.INTERNAL_SERVER_ERROR);
+    		Error error=new Error(1,"Unable to apply for Job!!");
+    		return new ResponseEntity<Error>(error,HttpStatus.INTERNAL_SERVER_ERROR);
     	}
 	}
 
 	@RequestMapping(value="/getAllAppliedUser/{jobId}",method=RequestMethod.GET)
 	public ResponseEntity<?> getAllAppliedUser(@PathVariable int jobId ,HttpSession session){
 		if(session.getAttribute("username")==null){
-    		return new ResponseEntity<Void>(HttpStatus.UNAUTHORIZED);
+    		Error error=new Error(5,"Unauthorized User!!");
+    		return new ResponseEntity<Error>(error,HttpStatus.UNAUTHORIZED);
     	}
 		else if(!session.getAttribute("role").equals("admin")){
-    		return new ResponseEntity<Void>(HttpStatus.UNAUTHORIZED);	
+			Error error=new Error(6,"Unauthorized User!!");
+    		return new ResponseEntity<Error>(error,HttpStatus.UNAUTHORIZED);	
 		}
 		List<ApplyForJob> list=jobDAO.getAllAppliedUser(jobId);
 		return new ResponseEntity<List<ApplyForJob>>(list,HttpStatus.OK);	
@@ -112,12 +123,14 @@ public class JobController {
 		try{
 			String username=(String)session.getAttribute("username");
 			if(username==null){
-	    		return new ResponseEntity<Void>(HttpStatus.UNAUTHORIZED);
+	    		Error error=new Error(5,"Unauthorized User!!");
+	    		return new ResponseEntity<Error>(error,HttpStatus.UNAUTHORIZED);
 	    	}
 			return new ResponseEntity<Boolean>(jobDAO.checkIfApplied(jobId, username),HttpStatus.OK);
     	}catch(Exception e){
     		System.out.print(e);
-    		return new ResponseEntity<Void>(HttpStatus.INTERNAL_SERVER_ERROR);
+    		Error error=new Error(1,"Unable to check!!");
+    		return new ResponseEntity<Error>(error,HttpStatus.INTERNAL_SERVER_ERROR);
     	}
 	}
 
