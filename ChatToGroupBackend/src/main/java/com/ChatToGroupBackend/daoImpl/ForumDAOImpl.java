@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.ChatToGroupBackend.dao.ForumDAO;
+import com.ChatToGroupBackend.model.ForumComment;
 import com.ChatToGroupBackend.model.Forum;
 
 @Repository("forumDAO")
@@ -71,6 +72,21 @@ public class ForumDAOImpl implements ForumDAO {
 		} catch (Exception e) {
 			return false;
 		}
+	}
+	public boolean addForumComment(ForumComment forumComment) {
+		try {
+		Session session=sessionFactory.getCurrentSession();
+		session.save(forumComment);		
+		return true;
+	} catch (Exception e) {
+		return false;
+	}
+	}
+	public List<ForumComment> getAllForumComment(int forum_id) {
+		Session session=sessionFactory.getCurrentSession();
+		Query<ForumComment> query=session.createQuery("from ForumComment where forum.forum_id=:id");
+		query.setParameter("id",forum_id);
+		return query.list();
 	}
 
 }

@@ -42,8 +42,6 @@ public class BlogController {
 		try{
 			if(blog.getBlog_id()==0)
 				blog.setApproved("NA");
-			if(session.getAttribute("role").equals("admin"))
-				blog.setApproved("A");
 			blog.setPosted_on(new Date());
 			blog.setPosted_by(user);
 			blogDAO.insertOrUpdateBlog(blog);
@@ -58,12 +56,7 @@ public class BlogController {
 	
 	@RequestMapping(value="/getAllBlog/{approved}",method=RequestMethod.GET)
 	public ResponseEntity<?> getAllBlog(@PathVariable String approved,HttpSession session){
-		/*if(session.getAttribute("username")==null){
-    		Error error=new Error(5,"Unauthorized User!!");
-    		return new ResponseEntity<Error>(error,HttpStatus.UNAUTHORIZED);
-    	}*/
 		List<Blog> list=blogDAO.getBlogs(approved);
-		//System.out.println(list.size());
 		return new ResponseEntity<List<Blog>>(list,HttpStatus.OK);	
 	}
 	
@@ -72,7 +65,6 @@ public class BlogController {
 		List<Blog> list=blogDAO.getBlogsByUser(username);
 		return new ResponseEntity<List<Blog>>(list,HttpStatus.OK);	
 	}
-//rakesh.pandit@niit.com
 	@RequestMapping(value="/getBlogById/{id}",method=RequestMethod.GET)
 	public ResponseEntity<?> getBlogById(@PathVariable int id){
 		Blog blog=blogDAO.getBlogById(id);

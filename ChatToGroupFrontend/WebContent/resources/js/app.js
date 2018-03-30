@@ -67,6 +67,20 @@ app.config(function($routeProvider){
 		templateUrl:'views/viewBlog.html',
 		controller:'BlogController'
 	})
+	.when('/addForum',{
+		templateUrl:'views/addForum.html',
+		controller:'ForumController',
+		resolve:{factory:checkLogin}
+	})
+	.when('/updateForum/:id',{
+		templateUrl:'views/addForum.html',
+		controller:'ForumController',
+		resolve:{factory:checkLogin}
+	})
+	.when('/viewForum/:id',{
+		templateUrl:'views/viewForum.html',
+		controller:'ForumController'
+	})
 	.when('/blogsToApprove',{
 		templateUrl:'views/blogToApproved.html',
 		controller:'BlogController',
@@ -75,6 +89,10 @@ app.config(function($routeProvider){
 	.when('/blogs',{
 		templateUrl:'views/allBlogs.html',
 		controller:'BlogController'
+	})
+	.when('/forums',{
+		templateUrl:'views/allForums.html',
+		controller:'ForumController'
 	})
 	.when('/getSuggestedFriends',{
 		templateUrl:'views/suggestedFriends.html',

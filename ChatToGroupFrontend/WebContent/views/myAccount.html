@@ -68,9 +68,11 @@ $("#myFile").change(function(){
         </div></div>
         
 		
-<div class="myBoldFont" style="padding:20px;font-size: 40px;background-color:rgb(51,122,183);color:white">Blog Posts<a href="#!addBlog" class="btn btn-success pull-right myBoldFont" style="font-size: 20px"  ng-show="currentUser.username==user.username">Create New Blog</a></div>
-<div class="msg myBoldFont" ng-show="blogs.length==0">No Post To Show</div>
-<div ng-repeat="b in blogs | orderBy:'-posted_on' | filter:x" class="blogBox"  style="background-color: white;border-bottom: 5px outset rgb(51,122,183);">
+<div ng-if="currentUser.role!='admin'" class="myBoldFont" style="padding:20px;font-size: 40px;background-color:rgb(51,122,183);color:white">Blog Posts<a href="#!addBlog" class="btn btn-success pull-right myBoldFont" style="font-size: 20px"  ng-show="currentUser.username==user.username">Create New Blog</a></div>
+<div ng-if="user.role=='admin'" class="myBoldFont" style="padding:20px;font-size: 40px;background-color:rgb(51,122,183);color:white">Forums <a href="#!addForum" class="btn btn-success pull-right myBoldFont" style="font-size: 20px"  ng-show="currentUser.username==user.username">Create New Forum</a></div>
+<div ng-if="currentUser.role!='admin'" class="msg myBoldFont" ng-show="blogs.length==0">No Post To Show</div>
+<div ng-if="currentUser.role=='admin'" class="msg myBoldFont" ng-show="forums.length==0">No Post To Show</div>
+<div ng-if="currentUser.role!='admin'" ng-repeat="b in blogs | orderBy:'-posted_on' | filter:x" class="blogBox"  style="background-color: white;border-bottom: 5px outset rgb(51,122,183);">
 <a href="#!viewBlog/{{b.blog_id}}"><h2><b>{{b.blog_title}}</b></h2></a><br/>
 <div class="row">
 <div class="col-md-3"><img ng-src="http://localhost:8089/ChatToGroupMiddleWare/resources/images/{{b.blog_id}}.jpg" alt="Blog image" onerror="this.src='resources/images/boxCover.jpg'" style="width:100%"/></div>
@@ -83,6 +85,20 @@ $("#myFile").change(function(){
 <div class="row" ng-show="currentUser.username==user.username">
 <div class="col-md-6"><a class="btn btn-primary btn-block" href="#!updateBlog/{{b.blog_id}}">Update</a></div><div class="col-md-6"><button class="btn btn-danger btn-block" ng-click="deleteBlog(b.blog_id)">Delete</button></div>
 </div></div>
+
+<div ng-if="currentUser.role=='admin'" ng-repeat="b in forums | orderBy:'-posted_on'" class="blogBox"  style="background-color: white;border-bottom: 5px outset rgb(51,122,183);">
+<a href="#!viewForum/{{b.forum_id}}"><h2><b>{{b.forum_title}}</b></h2></a><br/>
+<div class="row">
+<div class="col-md-3"><img ng-src="http://localhost:8089/ChatToGroupMiddleWare/resources/images/{{b.forum_id}}.jpg" alt="Forum image" onerror="this.src='resources/images/boxCover.jpg'" style="width:100%"/></div>
+<div class="col-md-9"><span style="font-size:17px;">{{b.forum_description.substring(0,455)}}.........</span></div>
+</div><br/>
+<div class="row"  style="font-size:20px;">
+<div class="col-md-4"><b>Posted On : </b>{{b.posted_on | date:"dd/MMM/yyyy"}}</div>
+</div><br/>
+<div class="row" ng-show="currentUser.username==user.username">
+<div class="col-md-6"><a class="btn btn-primary btn-block" href="#!updateForum/{{b.forum_id}}">Update</a></div><div class="col-md-6"><button class="btn btn-danger btn-block" ng-click="deleteForum(b.forum_id)">Delete</button></div>
+</div></div>
+
 
 </div><br/>
 </div>

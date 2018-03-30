@@ -44,6 +44,7 @@ public class DBConfig {
 		sessionFactBuilder.addAnnotatedClass(ApplyForJob.class);
 		sessionFactBuilder.addAnnotatedClass(Friends.class);
 		sessionFactBuilder.addAnnotatedClass(BlogComment.class);
+		sessionFactBuilder.addAnnotatedClass(ForumComment.class);
 		return sessionFactBuilder.buildSessionFactory();
 	}
 

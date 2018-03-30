@@ -1,24 +1,35 @@
-app.controller('ViewProfileController',function(BlogService,UserService,FriendService,$scope,$rootScope,$location,$cookieStore,$route,$routeParams){
+app.controller('ViewProfileController',function(BlogService,UserService,ForumService,FriendService,$scope,$rootScope,$location,$cookieStore,$route,$routeParams){
 	$scope.user={}
 	$scope.blogs=[]
+	$scope.forums=[]
 	$scope.friend={}
 	if($location.path().substring(0,13)=='/viewProfile/'){
 		var id=$routeParams.id;
 		UserService.getUser(id).then(function(response){
 			$scope.user=response.data;
-		},function(response){
-			$location.path('/home');
-		})
-		BlogService.getAllBlogByUser(id).then(function(response){
-			$scope.blogs=response.data;
-			if($rootScope.currentUser.username!=$scope.user.username)
-				$scope.x=function(temp){
-				if(temp.approved=='NA'||temp.approved=='R')
-					return false;
-				return true;
+			if($scope.user.role!='admin'){
+				BlogService.getAllBlogByUser(id).then(function(response){
+					alert($scope.user.role);
+						$scope.blogs=response.data;
+					if($rootScope.currentUser.username!=$scope.user.username)
+						$scope.x=function(temp){
+						if(temp.approved=='NA'||temp.approved=='R')
+							return false;
+						return true;
+					}
+				},function(response){
+					alert("Internal Server Error!!!");
+				})
+			}
+			else{
+				ForumService.getAllForum().then(function(response){
+					$scope.forums=response.data;
+				},function(response){
+					alert("Internal Server Error!!!");
+				})
 			}
 		},function(response){
-			alert("Internal Server Error!!!");
+			$location.path('/home');
 		})
 		FriendService.getFriend(id).then(function(response){
 			$scope.friend=response.data;
