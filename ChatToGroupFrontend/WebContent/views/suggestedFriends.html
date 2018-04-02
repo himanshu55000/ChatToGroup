@@ -11,7 +11,7 @@ border: 5px outset rgb(51,122,183);}
 <div style="background-color: white;margin:0" class="row"><br/>
 <div ng-repeat="friend in friendsList" class="col-sm-6 col-md-3">
 <a href="#!viewProfile/{{friend.username}}"><div class="thumbnail">
-<img src="http://localhost:8089/ChatToGroupMiddleWare/resources/images/{{friend.username}}.jpg" class="imgAlt" alt="Image Not Available" style="font-size:40px;height:200px;width:100%"/>
+<img src="http://localhost:8089/ChatToGroupMiddleWare/getProfilePicture/{{friend.username}}" class="imgAlt" alt="Image Not Available" style="font-size:40px;height:200px;width:100%"/>
 <div class="caption text-center">
           <span style="font-family:Lucida Calligraphy;font-size:18px;font-weight: 900;padding-top: 10px;">{{friend.firstname}} {{friend.lastname}}</span>
 <br/>       <br/><span style="bottom:2px;"><a href="" class="btn btn-primary btn-block myBoldFont" ng-click="sendRequest(friend.username)">Send Request</a></span>

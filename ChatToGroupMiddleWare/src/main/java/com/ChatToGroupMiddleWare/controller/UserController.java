@@ -114,32 +114,6 @@ public class UserController {
     	}
 	}
 
-	@RequestMapping(value="/addProfilePicture",method=RequestMethod.POST)
-	public ResponseEntity<?> addProfileImage(@RequestParam("image") MultipartFile image,HttpSession session)
-	{	String username=(String)session.getAttribute("username");	
-		String imgpath=session.getServletContext().getRealPath("/resources/images/");
-		String file_info=imgpath+username+".jpg";
-		System.out.println(file_info);
-		File f=new File(file_info);
-		if(!image.isEmpty()){
-			try{
-			byte buff[]=image.getBytes();
-			BufferedOutputStream bs=new BufferedOutputStream(new FileOutputStream(f));
-			bs.write(buff);
-			bs.close();
-			return new ResponseEntity<Void>(HttpStatus.OK);
-	    	}
-			catch(Exception e){
-	    		System.out.print(e);
-	    		Error error=new Error(1,"Unable to upload profile picture!!");
-	    		return new ResponseEntity<Error>(error,HttpStatus.INTERNAL_SERVER_ERROR);
-	    	}
-			}
-		else{
-    		Error error=new Error(1,"Unable to upload profile picture!!");
-    		return new ResponseEntity<Error>(error,HttpStatus.INTERNAL_SERVER_ERROR);
-		}
-	}
 
 }
 

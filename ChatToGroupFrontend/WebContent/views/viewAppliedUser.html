@@ -11,7 +11,7 @@
 <table class="table" style="font-size: 25px" ng-hide="appliedUsers.length==0">
 <tr><th>User</th><th>Email ID</th></tr>
 <tr ng-repeat="appliedUser in appliedUsers">
-<td><a href="#!viewProfile/{{appliedUser.applied_by.username}}"><img src="http://localhost:8089/ChatToGroupMiddleWare/resources/images/{{appliedUser.applied_by.username}}.jpg" alt="Image" style="height:50px;width:50px"/> {{appliedUser.applied_by.firstname}} {{appliedUser.applied_by.lastname}}</a></td><td>{{appliedUser.applied_by.email}}</td>
+<td><a href="#!viewProfile/{{appliedUser.applied_by.username}}"><img src="http://localhost:8089/ChatToGroupMiddleWare/getProfilePicture/{{appliedUser.applied_by.username}}" alt="Image" style="height:50px;width:50px"/> {{appliedUser.applied_by.firstname}} {{appliedUser.applied_by.lastname}}</a></td><td>{{appliedUser.applied_by.email}}</td>
 </tr>
 </table>
 </div>
