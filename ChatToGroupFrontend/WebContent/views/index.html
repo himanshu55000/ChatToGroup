@@ -45,6 +45,7 @@
          <li><a href="#!getSentRequests">Sent Requests</a></li>
          </ul>
        </li>
+	   	<li ng-show="currentUser.firstname"><a href="#!chatRoom">ChatRoom</a></li>
         <li><a href="#!aboutUs">About Us</a></li> 
       </ul>
 		
@@ -122,5 +123,7 @@
 <script src="resources/controller/FriendController.js"></script>
 <script src="resources/controller/ViewProfileController.js"></script>
 <script src="resources/controller/HomeController.js"></script>
+<script src="resources/controller/ChatController.js"></script>
+<script src="resources/service/ChatService.js"></script>
 </body>
 </html>

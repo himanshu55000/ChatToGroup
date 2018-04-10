@@ -1,4 +1,4 @@
-app.controller('UserController',function(UserService,$scope,$rootScope,$location,$cookieStore,$route,$routeParams){
+app.controller('UserController',function(ChatService,UserService,$scope,$rootScope,$location,$cookieStore,$route,$routeParams){
 	$scope.user={}
 	if($location.path().substring(0,13)=='/editProfile/'){
 		var id=$routeParams.id;
@@ -28,6 +28,7 @@ app.controller('UserController',function(UserService,$scope,$rootScope,$location
 		UserService.validateUser($scope.user).then(function(response){
 			$rootScope.currentUser=response.data
 			$cookieStore.put("currentUser",response.data)
+			ChatService.connect();
 			if($rootScope.interceptURL!=undefined)
 				$location.path($rootScope.interceptURL);
 			else

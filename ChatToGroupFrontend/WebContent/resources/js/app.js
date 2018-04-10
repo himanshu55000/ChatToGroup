@@ -67,6 +67,15 @@ app.config(function($routeProvider){
 		templateUrl:'views/viewBlog.html',
 		controller:'BlogController'
 	})
+	.when('/blogsToApprove',{
+		templateUrl:'views/blogToApproved.html',
+		controller:'BlogController',
+		resolve:{factory:checkLogin}
+	})
+	.when('/blogs',{
+		templateUrl:'views/allBlogs.html',
+		controller:'BlogController'
+	})
 	.when('/addForum',{
 		templateUrl:'views/addForum.html',
 		controller:'ForumController',
@@ -80,15 +89,6 @@ app.config(function($routeProvider){
 	.when('/viewForum/:id',{
 		templateUrl:'views/viewForum.html',
 		controller:'ForumController'
-	})
-	.when('/blogsToApprove',{
-		templateUrl:'views/blogToApproved.html',
-		controller:'BlogController',
-		resolve:{factory:checkLogin}
-	})
-	.when('/blogs',{
-		templateUrl:'views/allBlogs.html',
-		controller:'BlogController'
 	})
 	.when('/forums',{
 		templateUrl:'views/allForums.html',
@@ -124,16 +124,23 @@ app.config(function($routeProvider){
 		controller:'UserController',
 		resolve:{factory:checkLogin}
 	})
+	.when('/chatRoom',{
+		templateUrl:'views/chatRoom.html',
+		controller:'ChatController',
+		resolve:{factory:checkLogin}
+	})
 	.otherwise({
 		templateUrl:'views/404.html'
 	})
 })
-app.run(function($rootScope,$cookieStore,$route,UserService,$location){	
+app.run(function($rootScope,$cookieStore,$route,UserService,ChatService,$location){
+	
 	$rootScope.logout=function(){
         
 		UserService.logout().then(function(response){
 				$rootScope.interceptURL=undefined;
 				$rootScope.logoutMsg="Loggedout Successfully.."
+        		ChatService.stompClient.disconnect();
         		delete $rootScope.currentUser
         		$cookieStore.remove("currentUser")
         		$location.path('/login');
@@ -145,6 +152,18 @@ app.run(function($rootScope,$cookieStore,$route,UserService,$location){
 	
 	if($rootScope.currentUser==undefined)
 		$rootScope.currentUser=$cookieStore.get("currentUser")
+	if($rootScope.currentUser!=undefined){
+		ChatService.connect();
+	}
+	$rootScope.$on('updateChatVar',function(event,flag){
+		if(flag){
+			if(	$location.path()!='/chatRoom'){
+		$("#note").animate({top:'10px'}, "slow")
+	    $("#note").animate({top:'10px'}, "slow")
+	    $("#note").animate({top:'-160px'}, "slow")
+		}}
+	});
+
 })
 var checkLogin=function($rootScope,$location){
 	if($rootScope.currentUser==undefined){
